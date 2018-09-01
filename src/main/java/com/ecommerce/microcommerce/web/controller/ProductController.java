@@ -77,7 +77,13 @@ public class ProductController {
 
     public ResponseEntity<Void> ajouterProduit(@Valid @RequestBody Product product) {
 
-        Product productAdded = productDao.save(product);
+        Product productAdded;
+        if (product.getPrix() == 0) {
+            throw new ProduitGratuitException("Le produit á vendre ne doit pas être gratuit. Écran Bleu si je pouvais.");
+        } else {
+            productAdded = productDao.save(product);
+
+        }
 
         if (productAdded == null)
             return ResponseEntity.noContent().build();
@@ -88,8 +94,6 @@ public class ProductController {
                 .buildAndExpand(productAdded.getId())
                 .toUri();
 
-        if (productAdded.getPrix() == 0)
-            throw new ProduitGratuitException("Le produit á vendre ne doit pas être gratuit. Écran Bleu si je pouvais.");
 
         return ResponseEntity.created(location).build();
     }
