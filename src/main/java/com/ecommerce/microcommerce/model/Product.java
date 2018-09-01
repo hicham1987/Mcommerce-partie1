@@ -23,7 +23,7 @@ public class Product {
     @Min(value = 1)
     private int prix;
 
-    @JsonIgnore
+    //@JsonIgnore
     private int prixAchat;
 
     //constructeur par défaut
